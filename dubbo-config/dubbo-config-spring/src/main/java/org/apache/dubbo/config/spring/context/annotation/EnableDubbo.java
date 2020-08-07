@@ -36,13 +36,15 @@ import java.lang.annotation.Target;
  * @see DubboComponentScan
  * @see EnableDubboConfig
  * @since 2.5.8
+ *
+ * spring的dubbo入口
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-@EnableDubboConfig
-@DubboComponentScan
+@EnableDubboConfig  // 引入 EnableDubboConfig注解
+@DubboComponentScan // 引入 DubboComponentScan注解
 public @interface EnableDubbo {
 
     /**

@@ -36,6 +36,9 @@ import static org.apache.dubbo.config.Constants.ON_THROW_METHOD_KEY;
  * The method configuration
  *
  * @export
+ *
+ * 方法级配置
+ * <dubbo:service> 或 <dubbo:reference> 的子标签，用于控制到方法级。
  */
 public class MethodConfig extends AbstractMethodConfig {
 
@@ -53,6 +56,10 @@ public class MethodConfig extends AbstractMethodConfig {
 
     /**
      * Whether to retry
+     *
+     * 远程服务调用重试次数，不包括第一次调用，不需要重试请设为0
+     *
+     * 缺省为<dubbo:reference>的retries
      */
     private Boolean retry;
 
@@ -73,6 +80,10 @@ public class MethodConfig extends AbstractMethodConfig {
 
     /**
      * Whether to enable sticky
+     *
+     * 设置true 该接口上的所有方法使用同一个provider.如果需要更复杂的规则，请使用用路由
+     *
+     * 缺省：false
      */
     private Boolean sticky;
 

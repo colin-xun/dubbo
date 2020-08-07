@@ -26,6 +26,8 @@ import java.util.Map;
  * MonitorConfig
  *
  * @export
+ *
+ * 监控中心配置
  */
 public class MonitorConfig extends AbstractConfig {
 
@@ -34,11 +36,17 @@ public class MonitorConfig extends AbstractConfig {
     /**
      * The protocol of the monitor, if the value is registry, it will search the monitor address from the registry center,
      * otherwise, it will directly connect to the monitor center
+     *
+     * 监控中心协议，如果为protocol="registry"，表示从注册中心发现监控中心地址，否则直连监控中心。
+     *
+     * 缺省：dubbo
      */
     private String protocol;
 
     /**
      * The monitor address
+     *
+     * 直连监控中心服务器地址，address="10.20.130.230:12080"
      */
     private String address;
 

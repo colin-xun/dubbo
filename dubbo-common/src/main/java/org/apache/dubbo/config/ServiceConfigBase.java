@@ -36,7 +36,7 @@ import static org.apache.dubbo.common.constants.CommonConstants.DUBBO;
 
 /**
  * ServiceConfig
- *
+ * 这个类定义了dubbo:service标签里面的基础属性
  * @export
  */
 public abstract class ServiceConfigBase<T> extends AbstractServiceConfig {
@@ -45,21 +45,25 @@ public abstract class ServiceConfigBase<T> extends AbstractServiceConfig {
 
     /**
      * The interface name of the exported service
+     * 要导出的服务接口名
      */
     protected String interfaceName;
 
     /**
      * The interface class of the exported service
+     * 要导出的服务接口类
      */
     protected Class<?> interfaceClass;
 
     /**
      * The reference of the interface implementation
+     * 引用的接口实现bean
      */
     protected T ref;
 
     /**
      * The service name
+     * 这个参数可缺省，缺省的话为接口名
      */
     protected String path;
 

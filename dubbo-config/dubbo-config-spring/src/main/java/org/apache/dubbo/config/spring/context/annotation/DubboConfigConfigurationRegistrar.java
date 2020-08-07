@@ -37,9 +37,13 @@ import static org.apache.dubbo.config.spring.util.DubboBeanUtils.registerCommonB
  */
 public class DubboConfigConfigurationRegistrar implements ImportBeanDefinitionRegistrar {
 
+    /**
+     *
+     * @param importingClassMetadata 注解上的元数据信息
+     * @param registry Spring的bean注册管理器
+     */
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-
         AnnotationAttributes attributes = AnnotationAttributes.fromMap(
                 importingClassMetadata.getAnnotationAttributes(EnableDubboConfig.class.getName()));
 

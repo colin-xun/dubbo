@@ -54,11 +54,15 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
 
     /**
      * Local impl class name for the service interface
+     *
+     * 默认为false，如果设置为true，代表类名如果缺省的话使用接口Local后缀代理，不过这个已经废弃，请使用stub
      */
     protected String local;
 
     /**
      * Local stub class name for the service interface
+     *
+     *
      */
     protected String stub;
 
@@ -69,38 +73,54 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
 
     /**
      * Strategies for generating dynamic agents，there are two strategies can be choosed: jdk and javassist
+     *
+     * 生成动态代理方式，可选：jdk/javassist，默认为javassist
      */
     protected String proxy;
 
     /**
      * Cluster type
+     *
+     * 集群方式，可选：failover/failfast/failsafe/failback/forking
+     * 默认为failover
      */
     protected String cluster;
 
     /**
      * The {@code Filter} when the provider side exposed a service or the customer side references a remote service used,
      * if there are more than one, you can use commas to separate them
+     *
+     * 服务提供方远程调用过程拦截器名称，多个名称用逗号分隔
      */
     protected String filter;
 
     /**
      * The Listener when the provider side exposes a service or the customer side references a remote service used
      * if there are more than one, you can use commas to separate them
+     *
+     * 服务提供方导出服务监听器名称，多个名称用逗号分隔
      */
     protected String listener;
 
     /**
      * The owner of the service providers
+     *
+     * 服务Owner
      */
     protected String owner;
 
     /**
      * Connection limits, 0 means shared connection, otherwise it defines the connections delegated to the current service
+     *
+     * 限制服务提供者的最大连接数，rmi、htpp、hessian是短连接、dubbo是长连接
+     * 默认为100
      */
     protected Integer connections;
 
     /**
      * The layer of service providers
+     *
+     * 服务提供者所在的分层。如：biz、dao、intl:web、china:acton。
      */
     protected String layer;
 
@@ -117,6 +137,8 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
     /**
      * The registry list the service will register to
      * Also see {@link #registryIds}, only one of them will work.
+     *
+     *
      */
     protected List<RegistryConfig> registries;
 

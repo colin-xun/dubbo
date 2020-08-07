@@ -66,7 +66,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-@Import(DubboConfigConfigurationRegistrar.class)
+@Import(DubboConfigConfigurationRegistrar.class) // 初始化切入点，当bean被初始化的时候触发该类
 public @interface EnableDubboConfig {
 
     /**
@@ -74,6 +74,8 @@ public @interface EnableDubboConfig {
      *
      * @return the default value is <code>true</code>
      * @revised 2.5.9
+     *
+     * 是否支持多配置
      */
     boolean multiple() default true;
 

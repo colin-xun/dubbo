@@ -29,6 +29,8 @@ import static org.apache.dubbo.config.Constants.PROTOCOLS_SUFFIX;
  * ProtocolConfig
  *
  * @export
+ *
+ * 服务提供者协议配置，如果需要支持多协议，可以声明多个<dubbo:protocol> 标签，并在 <dubbo:service> 中通过 protocol 属性指定使用的协议。
  */
 public class ProtocolConfig extends AbstractConfig {
 
@@ -36,16 +38,22 @@ public class ProtocolConfig extends AbstractConfig {
 
     /**
      * Protocol name
+     *
+     * 协议名称：缺省dubbo
      */
     private String name;
 
     /**
      * Service ip address (when there are multiple network cards available)
+     *
+     * 服务主机名，多网卡选择或指定VIP及域名时使用，为空则自动查找本机IP，-建议不要配置，让Dubbo自动获取本机IP
      */
     private String host;
 
     /**
      * Service port
+     *
+     * dubbo协议缺省端口为20880，rmi协议缺省端口为1099，http和hessian协议缺省端口为80；如果没有配置port，则自动采用默认端口，如果配置为-1，则会分配一个没有被占用的端口。Dubbo 2.4.0+，分配的端口在协议缺省端口的基础上增长，确保端口段可控。
      */
     private Integer port;
 
@@ -56,11 +64,15 @@ public class ProtocolConfig extends AbstractConfig {
 
     /**
      * Thread pool
+     *
+     * 线程池类型，可选：fixed/cached，缺省：fixed
      */
     private String threadpool;
 
     /**
      * Thread pool name
+     *
+     * 服务线程池大小(固定大小)，缺省200
      */
     private String threadname;
 
@@ -76,56 +88,80 @@ public class ProtocolConfig extends AbstractConfig {
 
     /**
      * IO thread pool size (fixed size)
+     *
+     * io线程池大小(固定大小)	,缺省：cpu个数+1
      */
     private Integer iothreads;
 
     /**
      * Thread pool's queue length
+     *
+     *  线程池队列大小，当线程池满时，排队等待执行的队列大小，建议不要设置，当线程池满时应立即失败，重试其它服务提供机器，而不是排队，除非有特殊需求。
+     *
      */
     private Integer queues;
 
     /**
      * Max acceptable connections
+     *
+     * 服务提供方最大可接受连接数	缺省：0
      */
     private Integer accepts;
 
     /**
      * Protocol codec
+     *
+     * 协议编码方式	缺省：dubbo
      */
     private String codec;
 
     /**
      * Serialization
+     *
+     * 协议序列化方式，当协议支持多种序列化方式时使用，比如：dubbo协议的dubbo,hessian2,java,compactedjava，以及http协议的json等
+     *
+     * dubbo协议缺省为hessian2，rmi协议缺省为java，http协议缺省为json
      */
     private String serialization;
 
     /**
      * Charset
+     * 序列化编码	缺省：UTF-8
      */
     private String charset;
 
     /**
      * Payload max length
+     *
+     * 请求及响应数据包大小限制，单位：字节	  缺省8388608(=8M)
      */
     private Integer payload;
 
     /**
      * Buffer size
+     * 网络读写缓冲区大小	 缺省：8192
      */
     private Integer buffer;
 
     /**
      * Heartbeat interval
+     * 心跳间隔，对于长连接，当物理层断开时，比如拔网线，TCP的FIN消息来不及发送，对方收不到断开事件，此时需要心跳来帮助检查连接是否已断开
+     *
      */
     private Integer heartbeat;
 
     /**
      * Access log
+     *
+     * 设为true，将向logger中输出访问日志，也可填写访问日志文件路径，直接把访问日志输出到指定文件
      */
     private String accesslog;
 
     /**
      * Transporter
+     *
+     * 协议的服务端和客户端实现类型，比如：dubbo协议的mina,netty等，可以分拆为server和client配置
+     * dubbo协议缺省为netty
      */
     private String transporter;
 
@@ -136,6 +172,9 @@ public class ProtocolConfig extends AbstractConfig {
 
     /**
      * Thread dispatch mode
+     * 协议的消息派发方式，用于指定线程模型，比如：dubbo协议的all, direct, message, execution, connection等
+     *
+     * dubbo协议缺省为all
      */
     private String dispatcher;
 
@@ -146,16 +185,24 @@ public class ProtocolConfig extends AbstractConfig {
 
     /**
      * Sever impl
+     * 协议的服务器端实现类型，比如：dubbo协议的mina,netty等，http协议的jetty,servlet等
+     *
+     * dubbo协议缺省为netty，http协议缺省为servlet
      */
     private String server;
 
     /**
      * Client impl
+     *
+     * 协议的客户端实现类型，比如：dubbo协议的mina,netty等
+     *
+     * dubbo协议缺省为netty
      */
     private String client;
 
     /**
      * Supported telnet commands, separated with comma.
+     * 所支持的telnet命令，多个命令用逗号分隔
      */
     private String telnet;
 
@@ -171,6 +218,8 @@ public class ProtocolConfig extends AbstractConfig {
 
     /**
      * Whether to register
+     *
+     * 该协议的服务是否注册到注册中心
      */
     private Boolean register;
 

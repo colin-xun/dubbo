@@ -31,27 +31,37 @@ public abstract class AbstractMethodConfig extends AbstractConfig {
 
     /**
      * The timeout for remote invocation in milliseconds
+     * 远程服务调用超时时间，默认为1000ms
      */
     protected Integer timeout;
 
     /**
      * The retry times
+     *
+     * 远程调用重试次数，不包括第一次调用，默认为2次，如果不需要重试则设置为0
      */
     protected Integer retries;
 
     /**
      * max concurrent invocations
+     *
+     *
      */
     protected Integer actives;
 
     /**
      * The load balance
+     *
+     * 负载均衡策略，可选值为random,roundrobin,leastactive。也就是随机、轮询、最少活跃调用
+     * 默认为random：也就是随机
      */
     protected String loadbalance;
 
     /**
      * Whether to async
      * note that: it is an unreliable asynchronism that ignores return values and does not block threads.
+     *
+     * 是否异步执行，缺省的话同步执行，异步的话忽略返回值，不阻塞执行线程
      */
     protected Boolean async;
 
@@ -65,6 +75,8 @@ public abstract class AbstractMethodConfig extends AbstractConfig {
      * <p>
      * note that: the mock doesn't support on the provider side，and the mock is executed when a non-business exception
      * occurs after a remote service call
+     *
+     * 默认为false，设置为true表示缺省使用接口名+Stub后缀，在出现非业务异常后执行
      */
     protected String mock;
 

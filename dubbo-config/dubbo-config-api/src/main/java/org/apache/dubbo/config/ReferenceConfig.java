@@ -89,6 +89,8 @@ import static org.apache.dubbo.rpc.cluster.Constants.REFER_KEY;
 /**
  * Please avoid using this class for any new application,
  * use {@link ReferenceConfigBase} instead.
+ *
+ * 服务消费者引用服务配置
  */
 public class ReferenceConfig<T> extends ReferenceConfigBase<T> {
 

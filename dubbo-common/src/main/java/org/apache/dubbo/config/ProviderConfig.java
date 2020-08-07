@@ -27,6 +27,10 @@ import java.util.Arrays;
  * @export
  * @see org.apache.dubbo.config.ProtocolConfig
  * @see ServiceConfigBase
+ *
+ * 服务提供者缺省值配置
+ *
+ * 同时该标签为 <dubbo:service> 和 <dubbo:protocol> 标签的缺省值设置
  */
 public class ProviderConfig extends AbstractServiceConfig {
 
@@ -36,6 +40,8 @@ public class ProviderConfig extends AbstractServiceConfig {
 
     /**
      * Service ip addresses (used when there are multiple network cards available)
+     *
+     * 服务主机名，多网卡选择或指定VIP及域名时使用，为空则自动查找本机IP，建议不要配置，让Dubbo自动获取本机IP
      */
     private String host;
 
@@ -61,6 +67,10 @@ public class ProviderConfig extends AbstractServiceConfig {
 
     /**
      * Thread pool size (fixed size)
+     *
+     * 服务线程池大小(固定大小)
+     *
+     * 缺省：200
      */
     private Integer threads;
 
@@ -91,6 +101,10 @@ public class ProviderConfig extends AbstractServiceConfig {
 
     /**
      * Payload max length
+     *
+     * 请求及响应数据包大小限制，单位：字节
+     *
+     * 缺省：8388608(=8M)
      */
     private Integer payload;
 

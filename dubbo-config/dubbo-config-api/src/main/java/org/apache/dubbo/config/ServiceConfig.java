@@ -101,6 +101,10 @@ import static org.apache.dubbo.rpc.Constants.SCOPE_REMOTE;
 import static org.apache.dubbo.rpc.Constants.TOKEN_KEY;
 import static org.apache.dubbo.rpc.cluster.Constants.EXPORT_KEY;
 
+/**
+ * 对应dubbo:service配置，属性定义在AbstractServiceConfig、ServiceConfigBase、AbstractMethodConfig多个类中
+ * @param <T>
+ */
 public class ServiceConfig<T> extends ServiceConfigBase<T> {
 
     public static final Logger logger = LoggerFactory.getLogger(ServiceConfig.class);
