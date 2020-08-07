@@ -79,22 +79,31 @@ public class DubboConfigBindingBeanPostProcessor implements BeanPostProcessor, A
         this.beanName = beanName;
     }
 
+    /**
+     * 由spring调度 实现了BeanPostProcessor 接口 在spring 创建bean之前都会使用Processor做前置和后置处理
+     *
+     * bean创建之后的后置处理
+     */
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-
+        /**
+         * 当前config是否能被beanProcessor处理
+         * 比如处理 dubbo.application.id=ddd  那么初始化这个config 则会被当时初始化的BeanPostProcessor处理
+         * beanName 在<9>处初始化一个前缀对应一个config
+         */
         if (beanName.equals(this.beanName) && bean instanceof AbstractConfig) {
 
             AbstractConfig dubboConfig = (AbstractConfig) bean;
-
+            // 进行绑定
             bind(prefix, dubboConfig);
-
+            // 进行绑定
             customize(beanName, dubboConfig);
         }
         return bean;
     }
 
     private void bind(String prefix, AbstractConfig dubboConfig) {
-
+        // 传入前缀和config对象执行bind逻辑如果没有指定 这里就是调用默认的DefaultDubboConfigBinder
         dubboConfigBinder.bind(prefix, dubboConfig);
 
         if (log.isInfoEnabled()) {
@@ -104,7 +113,7 @@ public class DubboConfigBindingBeanPostProcessor implements BeanPostProcessor, A
     }
 
     private void customize(String beanName, AbstractConfig dubboConfig) {
-
+        // 默认初始化了一个 NamePropertyDefaultValueDubboConfigBeanCustomizer
         for (DubboConfigBeanCustomizer customizer : configBeanCustomizers) {
             customizer.customize(beanName, dubboConfig);
         }
@@ -119,6 +128,9 @@ public class DubboConfigBindingBeanPostProcessor implements BeanPostProcessor, A
         this.dubboConfigBinder = dubboConfigBinder;
     }
 
+    /**
+     * bean创建之前的前置处理 并没有做具体实现
+     */
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         return bean;
@@ -131,9 +143,10 @@ public class DubboConfigBindingBeanPostProcessor implements BeanPostProcessor, A
 
     @Override
     public void afterPropertiesSet() throws Exception {
-
+        // 从容器获取DubboConfigBinder组件 获取不到则使用 DefaultDubboConfigBinder
         initDubboConfigBinder();
-
+        // 从容器获取dubboConfigBeanCustomizer组件，默认NamePropertyDefaultValueDubboConfigBeanCustomizer在<8>处初始化
+        // 用于给容器里面的config做初始化
         initConfigBeanCustomizers();
 
     }
@@ -142,12 +155,14 @@ public class DubboConfigBindingBeanPostProcessor implements BeanPostProcessor, A
 
         if (dubboConfigBinder == null) {
             try {
+                // 从容器获得这个类型的bean 这里我们可以做自己的扩展
                 dubboConfigBinder = applicationContext.getBean(DubboConfigBinder.class);
             } catch (BeansException ignored) {
                 if (log.isDebugEnabled()) {
                     log.debug("DubboConfigBinder Bean can't be found in ApplicationContext.");
                 }
                 // Use Default implementation
+                // 获取不到则使用默认的 并且把环境信息传入供后续使用
                 dubboConfigBinder = createDubboConfigBinder(applicationContext.getEnvironment());
             }
         }
@@ -155,7 +170,7 @@ public class DubboConfigBindingBeanPostProcessor implements BeanPostProcessor, A
     }
 
     private void initConfigBeanCustomizers() {
-
+        // 从容器获取DubboConfigBeanCustomizer的实现 可以有多个 注意在<8>处默认初始化了NamePropertyDefaultValueDubboConfigBeanCustomizer在
         Collection<DubboConfigBeanCustomizer> configBeanCustomizers =
                 beansOfTypeIncludingAncestors(applicationContext, DubboConfigBeanCustomizer.class).values();
 

@@ -37,10 +37,13 @@ public class DefaultDubboConfigBinder extends AbstractDubboConfigBinder {
         dataBinder.setIgnoreInvalidFields(isIgnoreInvalidFields());
         dataBinder.setIgnoreUnknownFields(isIgnoreUnknownFields());
         // Get properties under specified prefix from PropertySources
+        // 获得指定前缀的配置信息 如 dubbo.application.name=aaa  则返回key=name  value=aaa
         Map<String, Object> properties = getSubProperties(getPropertySources(), prefix);
         // Convert Map to MutablePropertyValues
+        // 用于将配置绑定
         MutablePropertyValues propertyValues = new MutablePropertyValues(properties);
         // Bind
+        // 这个时候propertie配置的信息 将绑定到config对象里面
         dataBinder.bind(propertyValues);
     }
 

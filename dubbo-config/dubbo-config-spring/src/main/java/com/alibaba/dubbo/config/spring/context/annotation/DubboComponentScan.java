@@ -48,6 +48,8 @@ public @interface DubboComponentScan {
      * {@code @DubboComponentScan(basePackages="org.my.pkg")}.
      *
      * @return the base packages to scan
+     *
+     * 配置 扫描的包
      */
     String[] value() default {};
 
@@ -59,6 +61,8 @@ public @interface DubboComponentScan {
      * package names.
      *
      * @return the base packages to scan
+     *
+     * 配置要扫描包数组
      */
     String[] basePackages() default {};
 
@@ -68,6 +72,8 @@ public @interface DubboComponentScan {
      * scanned.
      *
      * @return classes from the base packages to scan
+     *
+     * 配置要扫描的类的数组
      */
     Class<?>[] basePackageClasses() default {};
 

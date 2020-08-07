@@ -93,6 +93,8 @@ public abstract class AnnotationInjectedBeanPostProcessor<A extends Annotation> 
     private int order = Ordered.LOWEST_PRECEDENCE;
 
     public AnnotationInjectedBeanPostProcessor() {
+        // 获取到泛型参数的值 extends AnnotationInjectedBeanPostProcessor<Reference> 就是Reference.class 可以看上面类图和类结构
+        // 初始化后我们接着看<13> 此方法由spring调度 可以在创建实例后 进行调用我们可以改变属性
         this.annotationType = resolveGenericType(getClass());
     }
 
@@ -105,7 +107,7 @@ public abstract class AnnotationInjectedBeanPostProcessor<A extends Annotation> 
     }
 
     /**
-     * Annotation type
+     * Annotation typeresolveGenericType
      *
      * @return non-null
      */
@@ -249,10 +251,20 @@ public abstract class AnnotationInjectedBeanPostProcessor<A extends Annotation> 
         return metadata;
     }
 
+    /**
+     * MergedBeanDefinitionPostProcessor接口的实现 根据
+     * 作用在bean实例化完毕后调用 可以用来修改merged BeanDefinition的一些properties 或者用来给后续回调中缓存一些meta信息使用
+     * 这个算是将merged BeanDefinition暴露出来的一个回调
+     * 在bean实例化之前初始化之前调用  主要用来改变打了@refrece的的属性的值
+     */
     @Override
     public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName) {
         if (beanType != null) {
+            // 反射获得指定bean 打了@Refrence的filed和method元数据封装到InjectionMetadata
+            // 注:这里返回的是AnnotationInjectedBeanPostProcessor.AnnotatedInjectionMetadata
             InjectionMetadata metadata = findInjectionMetadata(beanName, beanType, null);
+            // 将注入元数据信息保存到RootBeanDefinition#externallyManagedConfigMembers属性中
+            // 这里将类里面打了@Refrence的filed和method元素都拿到了
             metadata.checkConfigMembers(beanDefinition);
         }
     }

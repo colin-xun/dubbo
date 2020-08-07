@@ -41,23 +41,24 @@ public class NamePropertyDefaultValueDubboConfigBeanCustomizer implements DubboC
 
     @Override
     public void customize(String beanName, AbstractConfig dubboConfigBean) {
-
+        // 获得config的Name属性
         PropertyDescriptor propertyDescriptor = getPropertyDescriptor(dubboConfigBean.getClass(), PROPERTY_NAME);
-
+        // 是否含有name属性
         if (propertyDescriptor != null) { // "name" property is present
-
+            // 获得对应的getMethod
             Method getNameMethod = propertyDescriptor.getReadMethod();
 
             if (getNameMethod == null) { // if "getName" method is absent
                 return;
             }
-
+            // 获得name值 正常情况 我们前面bind已经绑定了
             Object propertyValue = ReflectionUtils.invokeMethod(getNameMethod, dubboConfigBean);
 
             if (propertyValue != null) { // If The return value of "getName" method is not null
                 return;
             }
 
+            // 如果没有配置name config又有name属性 则将传入的设置 正常情况不会到这里来 可以看<13>处
             Method setNameMethod = propertyDescriptor.getWriteMethod();
             if (setNameMethod != null && getNameMethod != null) { // "setName" and "getName" methods are present
                 if (Arrays.equals(of(String.class), setNameMethod.getParameterTypes())) { // the param type is String
